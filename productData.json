@@ -1,0 +1,25 @@
+{
+    "products": [
+        {
+            "name": "iPhone",
+            "price": 1000.00,
+            "numberInStock": 24,
+            "type": "Phone",
+            "manufacturer": "Apple"
+        },
+        {
+            "name": "10GB USB Stick",
+            "price": 4.99,
+            "numberInStock": 231,
+            "type": "Storage Device",
+            "manufacturer": "Sandisk"
+        },
+        {
+            "name": "Surface Pro 4",
+            "price": 799.99,
+            "numberInStock": 52,
+            "type": "Laptop",
+            "manufacturer": "Microsoft"
+        }
+    ]
+}
