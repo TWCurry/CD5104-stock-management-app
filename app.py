@@ -74,11 +74,9 @@ class mainWindow(Frame):
 
     def createProduct(self):
         displayCreateProductWindow()
-        self.loadData()
     
     def removeProduct(self):
         displayRemoveProductWindow()
-        self.loadData()
 
 class product:
     
