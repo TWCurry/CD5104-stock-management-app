@@ -11,6 +11,7 @@ function addItem(){
 }
 
 function loadTable(){
+    $("#tableCanvas").html("<img src=\"img/spinner.gif\">");//Display loading spinner
     var request = new XMLHttpRequest();
     request.open("POST", apiUrl+"/updatedb?action=getdata&data=placeholder", true)
     request.send();
@@ -30,7 +31,6 @@ function loadTable(){
 }
 
 function dynamicTable(data){
-    $("#tableCanvas").html("<img src=\"img/spinner.gif\">");//Display loading spinner
     var tableHtml="<table id=\"productTable\"><tr><th>Product Name</th><th>Price</th><th>Number in stock</th><th>Product Type</th><th>Manufacturer</th></tr>";
     for (product of JSON.parse(data)) {
         tableHtml += "<tr>";
