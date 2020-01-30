@@ -8,12 +8,12 @@ def lambda_handler(event, context):
     except Exception as e:
         return {
             "statusCode": 400,
+            "headers": {"Access-Control-Allow-Origin" : "*"},
             "body": "Missing parameter - " + str(e)
         }
     
     #Establish connection to DynamoDB
     client = boto3.client("dynamodb")
-
     #Perform actions
     if action == "add":
         return writeToDb(client, data)
@@ -22,11 +22,16 @@ def lambda_handler(event, context):
     elif action == "setstocklevel":
         return setStockLevel(client, data)
     elif action == "getdata":
-        return fetchItems(client)
+        return {
+            "statusCode": 200,
+            "headers": {"Access-Control-Allow-Origin" : "*"},
+            "body": json.dumps(fetchItems(client))
+        }
     else:
         logError("Invalid action: " + str(action))
         return {
             "statusCode": 400,
+            "headers": {"Access-Control-Allow-Origin" : "*"},
             "body": "Invalid action: " + str(action)
         }
 
@@ -42,6 +47,7 @@ def writeToDb(client, data):
         logError("Invalid data for write. Full error - " + str(e))
         return {
             "statusCode": 400,
+            "headers": {"Access-Control-Allow-Origin" : "*"},
             "body": "Invalid data for write. Full error - " + str(e)
         }
     response = client.put_item(
@@ -66,6 +72,7 @@ def writeToDb(client, data):
     )
     return {
         "statusCode": 200,
+        "headers": {"Access-Control-Allow-Origin" : "*"},
         "body": "update successful"
     }
 
@@ -76,6 +83,7 @@ def removeFromDb(client, data):
         logError("Invalid data for delete. Full error - " + str(e))
         return {
             "statusCode": 400,
+            "headers": {"Access-Control-Allow-Origin" : "*"},
             "body": "Invalid data for delete. Full error - " + str(e)
         }
     response = client.delete_item(
@@ -88,6 +96,7 @@ def removeFromDb(client, data):
     )
     return {
         "statusCode": 200,
+        "headers": {"Access-Control-Allow-Origin" : "*"},
         "body": "delete successful"
     }
 
@@ -100,6 +109,7 @@ def setStockLevel(client, data):
         logError("Invalid data for delete. Full error - " + str(e))
         return {
             "statusCode": 400,
+            "headers": {"Access-Control-Allow-Origin" : "*"},
             "body": "Invalid data for delete. Full error - " + str(e)
         }
     response = client.get_item(
