@@ -36,6 +36,7 @@ def lambda_handler(event, context):
         }
 
 def writeToDb(client, data):
+    data = json.loads(data)
     #Check correct params
     try:
         name = data["name"]
@@ -77,6 +78,7 @@ def writeToDb(client, data):
     }
 
 def removeFromDb(client, data):
+    data = json.loads(data)
     try:
         name = data["name"]
     except Exception as e:
