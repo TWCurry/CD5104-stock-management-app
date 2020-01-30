@@ -21,6 +21,8 @@ def lambda_handler(event, context):
         return removeFromDb(client, data)
     elif action == "setstocklevel":
         return setStockLevel(client, data)
+    elif action == "getdata":
+        return fetchItems(client)
     else:
         logError("Invalid action: " + str(action))
         return {
@@ -114,6 +116,22 @@ def setStockLevel(client, data):
         TableName=os.environ["ddbTableName"],
         Item=item
     )
+
+def fetchItems(client):
+    response = client.scan(
+        TableName=os.environ["ddbTableName"],
+    )
+    rawData = response["Items"]
+    returnData = []
+    for item in rawData:
+        returnItem = {}
+        returnItem["name"] = item["productName"]["S"]
+        returnItem["price"] = item["price"]["S"]
+        returnItem["number"] = item["numberInStock"]["S"]
+        returnItem["type"] = item["productType"]["S"]
+        returnItem["manufacturer"] = item["manufacturer"]["S"]
+        returnData.append(returnItem)
+    return returnData
 
 def logError(message):
     print("ERROR: " + str(message))
