@@ -1,0 +1,9 @@
+{
+    "queryStringParameters": {
+        "action": "setstocklevel",
+        "data": {
+            "name": "test",
+            "number": 30
+        }
+    }
+}

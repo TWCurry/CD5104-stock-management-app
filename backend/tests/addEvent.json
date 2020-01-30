@@ -1,0 +1,12 @@
+{
+    "queryStringParameters": {
+        "action": "add",
+        "data": {
+            "name": "test",
+            "price": "12.99",
+            "numberinstock": "2",
+            "producttype": "testproduct",
+            "manufacturer": "testmanufacturer"
+        }
+    }
+}

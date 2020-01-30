@@ -1,0 +1,34 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'SAM template for product management app
+
+  '
+Globals:
+  Function:
+    Timeout: 3
+Resources:
+  database:
+    Properties:
+      PrimaryKey:
+        Name: productName
+        TableName: pdAppDatabase
+        Type: String
+    Type: AWS::Serverless::SimpleTable
+  dbUpdateFunction:
+    Properties:
+      CodeUri: s3://cd5104-pd-app-backend/1ff9c8ede1191dcee38602b03f8c221c
+      Environment:
+        Variables:
+          ddbTableName:
+            Ref: database
+      Events:
+        updateDb:
+          Properties:
+            Method: post
+            Path: /updatedb
+          Type: Api
+      FunctionName: pdAppFunction
+      Handler: app.lambda_handler
+      Policies: AmazonDynamoDBFullAccess
+      Runtime: python3.7
+    Type: AWS::Serverless::Function
+Transform: AWS::Serverless-2016-10-31

@@ -1,0 +1,8 @@
+{
+    "queryStringParameters": {
+        "action": "remove",
+        "data": {
+            "name": "test"
+        }
+    }
+}
