@@ -1,13 +1,6 @@
 {
     "products": [
         {
-            "name": "iPhone",
-            "price": 1000.0,
-            "numberInStock": 24,
-            "type": "Phone",
-            "manufacturer": "Apple"
-        },
-        {
             "name": "10GB USB Stick",
             "price": 4.99,
             "numberInStock": 231,

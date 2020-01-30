@@ -38,6 +38,13 @@ def addNewProduct(name, price, numberInStock, productType, manufacturer):
     saveData()
     return products
 
+def removeProductFromTable(name):
+    for product in products:
+        if product["name"] == name:
+            products.remove(product)
+    saveData()
+    return products
+
 def saveData():
     print("saving data")
     f = open("productData.json", "w")
@@ -106,7 +113,11 @@ class mainWindow(Frame):
         self.loadData(newProducts)
     
     def removeProduct(self):
-        displayRemoveProductWindow()
+        productToRemove = simpledialog.askstring("Remove Product", "Enter the name of the product to remove", parent=self)
+        if productToRemove =="":
+            messagebox.showinfo("Invalid Input","Please enter a value.")
+        newProducts = removeProductFromTable(productToRemove)
+        self.loadData(newProducts)
 
 class product:
     
