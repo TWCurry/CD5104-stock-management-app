@@ -1,6 +1,7 @@
 #imports
 import json
 from tkinter import *
+from tkinter import simpledialog, messagebox
 from tkinter.ttk import *
 
 #Global Variables
@@ -10,7 +11,9 @@ products = []
 #Main module
 def main():
     #Load product data
-    products = loadProductData()["products"]
+    productData = loadProductData()["products"]
+    for product in productData:
+        products.append(product)
     #Initialise Tkinter
     window = Tk()
     window.geometry("800x300")
@@ -24,14 +27,22 @@ def loadProductData():
     f.close()
     return data
 
-def displayCreateProductWindow():
-    print("creating new product")
-
-def displayRemoveProductWindow():
-    print("destroying product")
+def addNewProduct(name, price, numberInStock, productType, manufacturer):
+    products.append({
+        "name": name,
+        "price": price,
+        "numberInStock": numberInStock,
+        "type": productType,
+        "manufacturer": manufacturer
+        })
+    saveData()
+    return products
 
 def saveData():
     print("saving data")
+    f = open("productData.json", "w")
+    f.write(json.dumps({"products": products}, indent=4))
+    f.close()
 
 ### Classes ###
 class mainWindow(Frame):
@@ -68,12 +79,31 @@ class mainWindow(Frame):
         self.loadData(products)
 
     def loadData(self, products):
+        self.table.delete(*self.table.get_children()) #Clear table
         for product in products:
             self.table.insert("", "end", text=product["name"], values=(product["price"], product["numberInStock"], product["type"], product["manufacturer"]))
         self.table.grid(column=1)
 
     def createProduct(self):
-        displayCreateProductWindow()
+        productName = simpledialog.askstring("Create New Product", "Enter the product name", parent=self)
+        if productName =="":
+            messagebox.showinfo("Invalid Input","Please enter a value.")
+            return
+        price = simpledialog.askstring("Create New Product", "Enter the product price", parent=self)
+        if price =="":
+            messagebox.showinfo("Invalid Input","Please enter a value.")
+            return
+        numberInStock = 0
+        productType = simpledialog.askstring("Create New Product", "Enter the type or product(phone, food, etc)", parent=self)
+        if productType =="":
+            messagebox.showinfo("Invalid Input","Please enter a value.")
+            return
+        manufacturer = simpledialog.askstring("Create New Product", "Enter the manufacturer", parent=self)
+        if manufacturer =="":
+            messagebox.showinfo("Invalid Input","Please enter a value.")
+            return
+        newProducts = addNewProduct(productName, price, numberInStock, productType, manufacturer)
+        self.loadData(newProducts)
     
     def removeProduct(self):
         displayRemoveProductWindow()
