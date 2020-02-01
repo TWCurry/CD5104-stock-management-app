@@ -37,7 +37,8 @@ function dynamicTable(data){
         for (field in product){
             tableHtml += "<td>"+product[field]+"</td>";
         }
-        tableHtml += "<td><button class=\"closeButton\" onclick=\"deleteItem(\'"+product["name"]+"\')\">X</button></td></tr>";
+        //Add buttons
+        tableHtml += "<td><button class=\"closeButton\" onclick=\"deleteItem(\'"+product["name"]+"\')\">X</button> <button onclick=\"changeStock(\'"+product["name"]+"\', "+String(Number(product["number"])+1)+")\">▲</button> <button onclick=\"changeStock(\'"+product["name"]+"\', "+String(Number(product["number"])-1)+")\">▼</button></td></tr>";
     }
     //New product input fields
     tableHtml += "<tr><td><input type=\"text\" id=\"tbName\"</td><td><input type=\"text\" id=\"tbPrice\"</td><td><input type=\"text\" id=\"tbNumber\"</td><td><input type=\"text\" id=\"tbType\"</td><td><input type=\"text\" id=\"tbManufacturer\"</td>";
@@ -94,6 +95,28 @@ function createProduct(){
     request.onerror=function(){
         console.log(request.responseText);
         alert("Error: Could not add item - " + request.responseText)
+    }
+    loadTable();
+}
+
+function changeStock(productName, newStockLevel){
+    data = JSON.stringify({
+        "name": productName,
+        "number": newStockLevel
+    });
+    var request = new XMLHttpRequest();
+    request.open("POST", encodeURI(apiUrl+"/updatedb?action=setstocklevel&data="+data), true)
+    request.send();
+    request.onreadystatechange = function() { //On data recieved...
+        if (request.readyState == 4) {
+            if (request.status != 200){
+                alert("Error: Could not update stock level - " + request.responseText);
+            }
+        }
+    }
+    request.onerror=function(){
+        console.log(request.responseText);
+        alert("Error: Could not update stock level - " + request.responseText)
     }
     loadTable();
 }
