@@ -15,6 +15,7 @@ def lambda_handler(event, context):
     #Establish connection to DynamoDB
     client = boto3.client("dynamodb")
     #Perform actions
+    print("Action performed: \""+action+"\"")
     if action == "add":
         return writeToDb(client, data)
     elif action == "remove":
@@ -105,14 +106,15 @@ def removeFromDb(client, data):
 def setStockLevel(client, data):
     #Get params
     try:
+        data = json.loads(data)
         name = data["name"]
         number = data["number"]
     except Exception as e:
-        logError("Invalid data for delete. Full error - " + str(e))
+        logError("Invalid data to update stock level. Full error - " + str(e))
         return {
             "statusCode": 400,
             "headers": {"Access-Control-Allow-Origin" : "*"},
-            "body": "Invalid data for delete. Full error - " + str(e)
+            "body": "Invalid data to update stock level. Full error - " + str(e)
         }
     response = client.get_item(
         TableName=os.environ["ddbTableName"],
@@ -128,6 +130,11 @@ def setStockLevel(client, data):
         TableName=os.environ["ddbTableName"],
         Item=item
     )
+    return {
+        "statusCode": 200,
+        "headers": {"Access-Control-Allow-Origin" : "*"},
+        "body": "update successful"
+    }
 
 def fetchItems(client):
     response = client.scan(
