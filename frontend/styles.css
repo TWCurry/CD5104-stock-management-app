@@ -15,6 +15,7 @@ input {
     padding-left: 2.5%;
     background-color: rgba(223, 223, 223, 0);
     border-color: white;
+    color: white;
 }
 button{
     background-color: white;

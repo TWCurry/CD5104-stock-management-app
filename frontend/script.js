@@ -56,7 +56,8 @@ function deleteItem(productName){
             if (request.status != 200){
                 alert("Error: Could not remove item - " + request.responseText);
             }else{
-                alert("Successfully deleted item.");
+                // alert("Successfully deleted item.");
+                loadTable();
             }
         }
     }
@@ -64,7 +65,6 @@ function deleteItem(productName){
         console.log(request.responseText);
         alert("Error: Could not remove item - " + request.responseText)
     }
-    loadTable();
 }
 
 function createProduct(){
@@ -88,7 +88,8 @@ function createProduct(){
             if (request.status != 200){
                 alert("Error: Could not add item - " + request.responseText);
             }else{
-                alert("Successfully added item.");
+                // alert("Successfully added item.");
+                loadTable();
             }
         }
     }
@@ -96,7 +97,6 @@ function createProduct(){
         console.log(request.responseText);
         alert("Error: Could not add item - " + request.responseText)
     }
-    loadTable();
 }
 
 function changeStock(productName, newStockLevel){
@@ -111,6 +111,8 @@ function changeStock(productName, newStockLevel){
         if (request.readyState == 4) {
             if (request.status != 200){
                 alert("Error: Could not update stock level - " + request.responseText);
+            }else{
+                loadTable();
             }
         }
     }
@@ -118,5 +120,4 @@ function changeStock(productName, newStockLevel){
         console.log(request.responseText);
         alert("Error: Could not update stock level - " + request.responseText)
     }
-    loadTable();
 }
